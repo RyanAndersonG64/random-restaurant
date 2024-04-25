@@ -13,3 +13,16 @@ body {
 #page-content {
   flex-grow: 2;
 }
+
+.navbar {
+  background-color: red;
+}
+
+.foot {
+  background-color: blue;
+}
+
+a {
+  margin-left: 5%;
+  margin-right: 5%;
+}

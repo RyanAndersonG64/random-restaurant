@@ -2,15 +2,15 @@ import { Link } from "react-router-dom"
 
 const Title = () => {
   return (
-    <h1>
-      Hello World!
-    </h1>
+    <div id = 'home'>
+       <img src = '.\artworks-yN2ywiiIIUOq2iz7-uilWNg-t500x500.jpg'></img>
+    </div>
   )
 }
 
 function App() {
   return (
-    <div className="p-5">
+    <div className = 'home'>
       <Title />
     </div>
   )

@@ -3,58 +3,80 @@ import axios from "axios";
 import { useState, useEffect } from "react"
 import SelectedMenu from "./SelectedMenu"
 
-async function getMenu({ getFullMenu, getBreakfast, getLunch, getDinner, getApps, getDrinks}){
+
+let fullMenu = true
+const NewMenuItem = ({ getMenu })
+
+
+async function getMenu({ setFullMenu, setSoupMenu, setSaladMenu, setEntreeMenu, setAppMenu, setDrinkMenu, setSideMenu, setDessertMenu, setKidsMenu}){
     try {
-        let menuItems = await axios.get("https://raw.githubusercontent.com/bootcamp-students/random-restaurant-json/main/foodList.json");
+        let menuItems = await axios.get("http://127.0.0.1:8000/menuitems/");
         const data = await menuItems.data;
-        getFullMenu(data)
-        const breakfast = await menuItems.data.filter(item => item.category === 'Breakfast')
-        getBreakfast(breakfast)
-        const lunch = await data.filter(item => item.category === 'Lunch')
-        getLunch(lunch)
-        const dinner = await data.filter(item => item.category === 'Dinner')
-        getDinner(dinner)
+        console.log(data)
+        setFullMenu(data)
+        const soup = await menuItems.data.filter(item => item.category === 'Soup')
+        setSoupMenu(soup)
+        const salad = await data.filter(item => item.category === 'Salad')
+        setSaladMenu(salad)
+        const entrees = await data.filter(item => item.category === 'Entree')
+        setEntreeMenu(entrees)
         const appetizers = await data.filter(item => item.category === 'Appetizer')
-        getApps(appetizers)
+        setAppMenu(appetizers)
         const drinks = await data.filter(item => item.category === 'Drink')
-        getDrinks(drinks)
+        setDrinkMenu(drinks)
+        const sides = await data.filter(item => item.category === 'Side')
+        setSideMenu(sides)
+        const desserts = await data.filter(item => item.category === 'Dessert')
+        setDessertMenu(desserts)
+        const kids = await data.filter(item => item.category === "Kid's Entree")
+        setKidsMenu(kids)
     } catch (error) {
         ;
     }
 };
 
 function Menu() {
-  const [menu, getFullMenu] = useState([])
-  const [breakfastMenu, getBreakfast] = useState([])
-  const [lunchMenu, getLunch] = useState([])
-  const [dinnerMenu, getDinner] = useState([])
-  const [appMenu, getApps] = useState([])
-  const [drinkMenu, getDrinks] = useState([])
+  const [fullMenu, setFullMenu] = useState([])
+  const [soupMenu, setSoupMenu] = useState([])
+  const [saladMenu, setSaladMenu] = useState([])
+  const [entreeMenu, setEntreeMenu] = useState([])
+  const [appMenu, setAppMenu] = useState([])
+  const [drinkMenu, setDrinkMenu] = useState([])
+  const [sideMenu, setSideMenu] = useState([])
+  const [dessertMenu, setDessertMenu] = useState([])
+  const [kidsMenu, setKidsMenu] = useState([])
+  
   const [selectedMenu, setSelectedMenu] = useState([])
+
   useEffect(() => {
-    getMenu({getFullMenu, getBreakfast, getLunch, getDinner, getApps, getDrinks})
+    getMenu({setFullMenu, setSoupMenu, setSaladMenu, setEntreeMenu, setAppMenu, setDrinkMenu, setSideMenu, setDessertMenu, setKidsMenu})
   }, [])
 
 
     return (
       <div className="p-5">
-        
         <button
-          onClick = {() => setSelectedMenu(breakfastMenu)}
+          onClick = {() => setSelectedMenu([])}
         >
-          Breakfast
+          Full Menu
         </button>
         
         <button
-          onClick = {() => setSelectedMenu(lunchMenu)}
+          onClick = {() => setSelectedMenu(soupMenu)}
         >
-          Lunch
+          Soup
+        </button>
+        
+        <button
+          onClick = {() => setSelectedMenu(saladMenu)}
+        >
+          Salad
         </button>
 
         <button
-          onClick = {() => setSelectedMenu(dinnerMenu)}
+          onClick = {() => setSelectedMenu(entreeMenu)}
         >
-          Dinner
+          Entree
         </button>
         
         <button
@@ -68,10 +90,28 @@ function Menu() {
         >
           Drinks
         </button>
+
+        <button
+          onClick = {() => setSelectedMenu(sideMenu)}
+        >
+          Sides
+        </button>
+
+        <button
+          onClick = {() => setSelectedMenu(dessertMenu)}
+        >
+          Dessert
+        </button>
+
+        <button
+          onClick = {() => setSelectedMenu(kidsMenu)}
+        >
+          Kids Menu
+        </button>
         
         {selectedMenu.length > 0 ? (
           <SelectedMenu selectedMenu = {selectedMenu} menuTitle={selectedMenu[0].category + ' Menu'}/>
-        ) : null}
+        ) : <SelectedMenu selectedMenu = {fullMenu} menuTitle={'Full Menu'}/>}
       </div>
     )
   }

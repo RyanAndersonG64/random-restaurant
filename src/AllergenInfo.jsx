@@ -4,11 +4,11 @@ import { useState, useEffect } from "react"
 import SelectedMenu from "./SelectedMenu"
 import Menu from './Menu'
 
-function allergenInfo() {
+function AllergenInfo() {
     print('Inset Allergen Info')
 }
 
 // dropdown to select an allergen
 // filters items that do not have that allergen
 
-export default allergenInfo
+export default AllergenInfo

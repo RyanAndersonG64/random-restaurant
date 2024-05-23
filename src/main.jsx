@@ -17,6 +17,7 @@ import OrderScreen from './OrderScreen'
 import ErrorPage from './ErrorPage'
 import Header from './Header'
 import Footer from './Footer'
+import AllergenInfo from './AllergenInfo'
 
 const site = import.meta.env.BASE_URL
 
@@ -56,7 +57,7 @@ const router = createBrowserRouter([
         element: <OrderScreen />
       },
       {
-        path: 'allergeninfo',
+        path: '/allergeninfo',
         element: <AllergenInfo />
       }
     ]

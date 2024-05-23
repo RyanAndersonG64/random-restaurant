@@ -39,7 +39,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: '/',
+        path: '/app',
         element: <App />,
         errorElement: <ErrorPage />
       },
@@ -51,6 +51,14 @@ const router = createBrowserRouter([
         path: '/menu',
         element: <Menu />
       },
+      {
+        path: '/orderscreen',
+        element: <OrderScreen />
+      },
+      {
+        path: 'allergeninfo',
+        element: <AllergenInfo />
+      }
     ]
   }
 ], {

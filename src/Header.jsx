@@ -5,8 +5,9 @@ function Header() {
     <div className = 'navbar'>
       <h5 id = 'nav'>
       <Link to='/app'>Home</Link>
+      <Link to='/about'>About</Link>
       <Link to='/menu'>Menu</Link>
-      <Link to='/about'>Info</Link>
+      <Link to='/AllergenInfo'>Allergen-free Items</Link>
       <Link to='/OrderScreen'>Order</Link>
       </h5>
     </div>

@@ -14,7 +14,7 @@ async function getMenu({ setFullMenu, setSoupMenu, setSaladMenu, setEntreeMenu, 
         const data = await menuItems.data;
         console.log(data)
         setFullMenu(data)
-        const soup = await menuItems.data.filter(item => item.category === 'Soup')
+        const soup = await data.filter(item => item.category === 'Soup')
         setSoupMenu(soup)
         const salad = await data.filter(item => item.category === 'Salad')
         setSaladMenu(salad)
@@ -60,7 +60,21 @@ function Menu() {
         >
           Full Menu
         </button>
-        
+
+        <br></br>
+
+        <button
+          onClick = {() => setSelectedMenu(drinkMenu)}
+        >
+          Drinks
+        </button>
+
+        <button
+          onClick = {() => setSelectedMenu(appMenu)}
+        >
+          Appetizers
+        </button>
+
         <button
           onClick = {() => setSelectedMenu(soupMenu)}
         >
@@ -73,24 +87,14 @@ function Menu() {
           Salad
         </button>
 
+        <br></br>
+
         <button
           onClick = {() => setSelectedMenu(entreeMenu)}
         >
-          Entree
+          Entrees
         </button>
         
-        <button
-          onClick = {() => setSelectedMenu(appMenu)}
-        >
-          Appetizers
-        </button>
-        
-        <button
-          onClick = {() => setSelectedMenu(drinkMenu)}
-        >
-          Drinks
-        </button>
-
         <button
           onClick = {() => setSelectedMenu(sideMenu)}
         >
@@ -108,6 +112,8 @@ function Menu() {
         >
           Kids Menu
         </button>
+
+        
         
         {selectedMenu.length > 0 ? (
           <SelectedMenu selectedMenu = {selectedMenu} menuTitle={selectedMenu[0].category + ' Menu'}/>

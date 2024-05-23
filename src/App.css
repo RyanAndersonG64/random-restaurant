@@ -17,6 +17,7 @@ body {
 .navbar {
   background-color: darkorange;
   text-align: center;
+  /* white-space: nowrap; */
 }
 
 #nav {

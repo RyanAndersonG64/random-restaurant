@@ -7,8 +7,8 @@ function Header() {
       <Link to='/app'>Home</Link>
       <Link to='/about'>About</Link>
       <Link to='/menu'>Menu</Link>
-      <Link to='/allergenInfo'>Allergen-free Items</Link>
-      <Link to='/OrderScreen'>Order</Link>
+      <Link to='/allergeninfo'>Allergen-free Menu</Link>
+      <Link to='/orderscreen'>Order</Link>
       </h5>
     </div>
   )

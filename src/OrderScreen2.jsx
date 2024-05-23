@@ -3,6 +3,7 @@ import axios from "axios";
 import { useState, useEffect } from "react"
 import SelectedMenu from "./SelectedMenu"
 import Menu from './Menu'
+import OrderScreen from "./OrderScreen";
 
 // customer can select from local storage list of names and addresses, or enter new name and address
 // button to place an order
@@ -14,7 +15,7 @@ import Menu from './Menu'
 // complete can be set to True (only if paid == True)
 
 
-function OrderScreen() {
+function OrderScreen2() {
     return (
         <div class = 'p-5'>
             Enter your name:<input type = 'text'/><br></br>
@@ -24,4 +25,4 @@ function OrderScreen() {
     )
 }
 
-export default OrderScreen
+export default OrderScreen2

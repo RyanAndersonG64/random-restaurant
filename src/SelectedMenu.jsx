@@ -25,22 +25,7 @@ function SelectedMenu({selectedMenu, menuTitle}) {
             <div><img src = 'https://http.cat/102'></img></div>
           )
 }
-// const MenuItemsList = ({ MenuItems }) => {
-//   return MenuItems.length > 0 ? (
-//     <div>
-//       <h2>Menu</h2>
-//       {MenuItems.map (inst => {
-//         return (
-//           <div key={inst.id}>
-//             {inst.id} - {inst.name}
-//           </div>
-//         )
-//       })}
-//     </div>
-//   ) : (
-//     <div><img src = 'https://http.cat/102'></img></div>
-//   )
-// }
+
 
 
 export default SelectedMenu

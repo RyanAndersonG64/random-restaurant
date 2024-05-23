@@ -8,7 +8,7 @@ let fullMenu = true
 const NewMenuItem = ({ getMenu })
 
 
-async function getMenu({ setFullMenu, setSoupMenu, setSaladMenu, setEntreeMenu, setAppMenu, setDrinkMenu, setSideMenu, setDessertMenu, setKidsMenu}){
+async function getMenu({ setFullMenu, setSoupMenu, setSaladMenu, setEntreeMenu, setAppMenu, setDrinkMenu, setSideMenu, setDessertMenu, setKidsMenu, setGlutenFreeMenu}){
     try {
         let menuItems = await axios.get("http://127.0.0.1:8000/menuitems/");
         const data = await menuItems.data;
@@ -30,6 +30,8 @@ async function getMenu({ setFullMenu, setSoupMenu, setSaladMenu, setEntreeMenu, 
         setDessertMenu(desserts)
         const kids = await data.filter(item => item.category === "Kid's Entree")
         setKidsMenu(kids)
+        const glutenFree = await data.filter(item => !item.allergens.includes('Wheat'))
+        setGlutenFreeMenu(glutenFree)
     } catch (error) {
         ;
     }
@@ -45,18 +47,28 @@ function Menu() {
   const [sideMenu, setSideMenu] = useState([])
   const [dessertMenu, setDessertMenu] = useState([])
   const [kidsMenu, setKidsMenu] = useState([])
+  const [GlutenFreeMenu, setGlutenFreeMenu] = useState([])
+  const [menuTitle, setMenuTitle] = useState([])
   
   const [selectedMenu, setSelectedMenu] = useState([])
 
   useEffect(() => {
-    getMenu({setFullMenu, setSoupMenu, setSaladMenu, setEntreeMenu, setAppMenu, setDrinkMenu, setSideMenu, setDessertMenu, setKidsMenu})
+    getMenu({setFullMenu, setSoupMenu, setSaladMenu, setEntreeMenu, setAppMenu, setDrinkMenu, setSideMenu, setDessertMenu, setKidsMenu, setGlutenFreeMenu})
   }, [])
 
 
     return (
       <div className="p-5">
+        <button>
+        <a href = './OrderScreen'>Place an Order</a>
+        </button>
+        <br></br><br></br><br></br>
+
         <button
-          onClick = {() => setSelectedMenu([])}
+          onClick = {() => {
+            setSelectedMenu([])
+            setMenuTitle('Full Menu')
+          }}
         >
           Full Menu
         </button>
@@ -64,25 +76,37 @@ function Menu() {
         <br></br>
 
         <button
-          onClick = {() => setSelectedMenu(drinkMenu)}
+          onClick = {() => {
+            setSelectedMenu(drinkMenu)
+            setMenuTitle('Drinks')
+          }}
         >
           Drinks
         </button>
 
         <button
-          onClick = {() => setSelectedMenu(appMenu)}
+          onClick = {() => {
+            setSelectedMenu(appMenu)
+            setMenuTitle('Appetizers')
+          }}
         >
           Appetizers
         </button>
 
         <button
-          onClick = {() => setSelectedMenu(soupMenu)}
+          onClick = {() => {
+            setSelectedMenu(soupMenu)
+            setMenuTitle('Soup')
+          }}
         >
           Soup
         </button>
         
         <button
-          onClick = {() => setSelectedMenu(saladMenu)}
+          onClick = {() => {
+            setSelectedMenu(saladMenu)
+            setMenuTitle('Salad')
+          }}
         >
           Salad
         </button>
@@ -90,33 +114,54 @@ function Menu() {
         <br></br>
 
         <button
-          onClick = {() => setSelectedMenu(entreeMenu)}
+          onClick = {() => {
+            setSelectedMenu(entreeMenu)
+            setMenuTitle('Entrees')
+          }}
         >
           Entrees
         </button>
         
         <button
-          onClick = {() => setSelectedMenu(sideMenu)}
+          onClick = {() => {
+            setSelectedMenu(sideMenu)
+            setMenuTitle('Sides')
+          }}
         >
           Sides
         </button>
 
         <button
-          onClick = {() => setSelectedMenu(dessertMenu)}
+          onClick = {() => {
+            setSelectedMenu(dessertMenu)
+            setMenuTitle('Dessert')
+          }}
         >
           Dessert
         </button>
 
         <button
-          onClick = {() => setSelectedMenu(kidsMenu)}
+          onClick = {() => {
+            setSelectedMenu(kidsMenu)
+            setMenuTitle('Kids Menu')
+          }}
         >
           Kids Menu
+        </button>
+
+        <button
+          onClick = {() => {
+            setSelectedMenu(GlutenFreeMenu)
+            setMenuTitle('Gluten-Free Menu')
+          }}
+        >
+          Gluten Free Menu
         </button>
 
         
         
         {selectedMenu.length > 0 ? (
-          <SelectedMenu selectedMenu = {selectedMenu} menuTitle={selectedMenu[0].category + ' Menu'}/>
+          <SelectedMenu selectedMenu = {selectedMenu} menuTitle={menuTitle}/>
         ) : <SelectedMenu selectedMenu = {fullMenu} menuTitle={'Full Menu'}/>}
       </div>
     )

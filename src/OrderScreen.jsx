@@ -20,6 +20,7 @@ function OrderScreen() {
             Enter your name:<input type = 'text'/><br></br>
             Enter your address:<input type = 'text'/><br></br>
             <button><a href = './OrderScreen2'>Order</a></button>
+            {/* axios post name and address as Customer */}
         </div>
     )
 }

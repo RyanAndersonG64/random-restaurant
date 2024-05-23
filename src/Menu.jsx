@@ -8,7 +8,7 @@ let fullMenu = true
 const NewMenuItem = ({ getMenu })
 
 
-async function getMenu({ setFullMenu, setSoupMenu, setSaladMenu, setEntreeMenu, setAppMenu, setDrinkMenu, setSideMenu, setDessertMenu, setKidsMenu, setGlutenFreeMenu}){
+async function getMenu({ setFullMenu, setSoupMenu, setSaladMenu, setEntreeMenu, setAppMenu, setDrinkMenu, setSideMenu, setDessertMenu, setKidsMenu}){
     try {
         let menuItems = await axios.get("http://127.0.0.1:8000/menuitems/");
         const data = await menuItems.data;
@@ -30,8 +30,6 @@ async function getMenu({ setFullMenu, setSoupMenu, setSaladMenu, setEntreeMenu, 
         setDessertMenu(desserts)
         const kids = await data.filter(item => item.category === "Kid's Entree")
         setKidsMenu(kids)
-        const glutenFree = await data.filter(item => !item.allergens.includes('Wheat'))
-        setGlutenFreeMenu(glutenFree)
     } catch (error) {
         ;
     }
@@ -47,13 +45,12 @@ function Menu() {
   const [sideMenu, setSideMenu] = useState([])
   const [dessertMenu, setDessertMenu] = useState([])
   const [kidsMenu, setKidsMenu] = useState([])
-  const [GlutenFreeMenu, setGlutenFreeMenu] = useState([])
   const [menuTitle, setMenuTitle] = useState([])
   
   const [selectedMenu, setSelectedMenu] = useState([])
 
   useEffect(() => {
-    getMenu({setFullMenu, setSoupMenu, setSaladMenu, setEntreeMenu, setAppMenu, setDrinkMenu, setSideMenu, setDessertMenu, setKidsMenu, setGlutenFreeMenu})
+    getMenu({setFullMenu, setSoupMenu, setSaladMenu, setEntreeMenu, setAppMenu, setDrinkMenu, setSideMenu, setDessertMenu, setKidsMenu})
   }, [])
 
 
@@ -149,14 +146,6 @@ function Menu() {
           Kids Menu
         </button>
 
-        <button
-          onClick = {() => {
-            setSelectedMenu(GlutenFreeMenu)
-            setMenuTitle('Gluten-Free Menu')
-          }}
-        >
-          Gluten Free Menu
-        </button>
 
         
         

@@ -13,9 +13,12 @@ import './App.css'
 import About from './About'
 import Menu from './Menu'
 import App from './App'
+import OrderScreen from './OrderScreen'
+import OrderScreen2 from './OrderScreen2'
 import ErrorPage from './ErrorPage'
 import Header from './Header'
 import Footer from './Footer'
+import AllergenInfo from './AllergenInfo'
 
 const site = import.meta.env.BASE_URL
 
@@ -43,6 +46,11 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />
       },
       {
+        path: 'app/',
+        element: <App />,
+        errorElement: <ErrorPage />
+      },
+      {
         path: '/about',
         element: <About />
       },
@@ -50,6 +58,18 @@ const router = createBrowserRouter([
         path: '/menu',
         element: <Menu />
       },
+      {
+        path: '/orderscreen',
+        element: <OrderScreen />
+      },
+      {
+        path: '/allergeninfo',
+        element: <AllergenInfo />
+      },
+      {
+        path: '/orderscreen2',
+        element: <OrderScreen2 />
+      }
     ]
   }
 ], {

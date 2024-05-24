@@ -17,6 +17,7 @@ body {
 .navbar {
   background-color: darkorange;
   text-align: center;
+  white-space: nowrap;
 }
 
 #nav {
@@ -31,6 +32,8 @@ body {
 a {
   margin-left: 5%;
   margin-right: 5%;
+  text-decoration: none;
+  color: black;
 }
 button {
   margin-right: 1%;
@@ -41,7 +44,8 @@ button {
   text-align: center;
   background-color: lightgray;
   width: 50%;
-  margin-left: 25%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #page-content {

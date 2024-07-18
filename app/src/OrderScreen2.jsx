@@ -5,6 +5,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import SelectedMenu from "./SelectedMenu"
 import Menu from './Menu'
 import OrderScreen from "./OrderScreen";
@@ -51,8 +52,3 @@ export default OrderScreen2
 // cart displays CustomerOrder(s) where paid === False and Customer === SelectedCustomer.id
 // checking out sets paid to True, so those CustomerOrder(s) are removed from cart
 // complete can be set to True (only if paid == True)
-
-// @mui/x-date-pickers/internals/demo (imported by C:/Users/bounc/random-restaurant/app/src/TimeSelect.jsx)
-// @mui/x-date-pickers/LocalizationProvider (imported by C:/Users/bounc/random-restaurant/app/src/TimeSelect.jsx)
-// @mui/x-date-pickers/AdapterDayjs (imported by C:/Users/bounc/random-restaurant/app/src/TimeSelect.jsx)
-// @mui/x-date-pickers/TimePicker (imported by C:/Users/bounc/random-restaurant/app/src/TimeSelect.jsx)

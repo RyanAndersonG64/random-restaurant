@@ -12,7 +12,7 @@ async function getMenu({ setFullMenu, setSoupMenu, setSaladMenu, setEntreeMenu, 
     try {
         let menuItems = await axios.get("http://127.0.0.1:8000/menuitems/");
         const data = await menuItems.data;
-        console.log(data)
+
         setFullMenu(data)
         const soup = await data.filter(item => item.category === 'Soup')
         setSoupMenu(soup)

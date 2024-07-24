@@ -3,7 +3,7 @@ function SelectedMenu({selectedMenu, menuTitle}) {
         <div>
             <h1>{menuTitle}</h1>
             {selectedMenu.map(item => {
-                console.log('Menu Item =  ' + item.item)
+
                 return (
                     <div key = {item.id}>
                         <div>

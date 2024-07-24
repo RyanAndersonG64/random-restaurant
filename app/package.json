@@ -9,12 +9,20 @@
     "preview-build": "vite preview --outDir docs"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@material-ui/core": "^4.12.4",
+    "@mui/material": "^5.16.4",
+    "@mui/x-date-pickers": "^7.10.0",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
+    "dayjs": "^1.11.11",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
+    "react-datepicker": "^7.3.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.22.3"
+    "react-router-dom": "^6.22.3",
+    "react-time-picker": "^7.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
@@ -30,5 +38,10 @@
   "engines": {
     "node": "^20.12.1",
     "npm": "^10.5.0"
-  }
+  },
+  "description": "This is a template with the following: \r * React bundled by Vite:  [https://vitejs.dev/guide/]\r * Bootstrap via react-bootstrap:  [https://react-bootstrap.github.io/docs/getting-started/introduction]\r * Routing via React-Router [https://reactrouter.com/en/main/start/overview]",
+  "main": "vite.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

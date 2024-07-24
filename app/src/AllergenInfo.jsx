@@ -33,7 +33,7 @@ function AllergenInfo() {
         <div className="p-5">
             <label htmlFor="allergens">Select an allergen:</label>
             <select id="allergens" name="allergens" onChange={(e) => {
-                console.log(e.target.value)
+ 
                 setSelectedMenu(menu.filter(menuItem => !menuItem.allergens.includes(e.target.value)))
                 if (e.target.value === 'None') {
                     setMenuTitle('All Items with Allergens')

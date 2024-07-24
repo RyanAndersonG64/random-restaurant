@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom"
 import axios from "axios";
 import { useState, useEffect, createContext, useContext } from "react"
-import SelectedMenu from "./SelectedMenu"
 import Menu from './Menu'
 import { CustomerContext } from './customercontext'
 
 const CustomerList = ({ customers }) => {
-    
+
     const { selectedCustomer, setSelectedCustomer } = useContext(CustomerContext)
 
     return customers.length > 0 ? (
@@ -20,11 +19,11 @@ const CustomerList = ({ customers }) => {
                         {inst.address} <br></br>
                         {inst.phone_number}<br></br>
                         <button onClick={() => {
-                            console.log(inst)
+
                             setSelectedCustomer(inst)
-                            console.log(selectedCustomer)
+                            localStorage.setItem('customer', JSON.stringify(inst))
                         }}>
-                            <Link to ='/OrderScreen2'> Order as this Customer</Link>
+                            <Link to='/OrderScreen2'> Order as this Customer</Link>
                         </button><br></br><br></br>
                     </div>
                 )
@@ -41,19 +40,14 @@ const NewCustomer = ({ getCustomers }) => {
     const [phone_number, setPhoneNumber] = useState('')
 
     const createCustomer = () => {
-        console.log(
-            { name },
-            'name:' + { name },
-            'phone_number:' + { phone_number },
-            'address:' + { address }
-        )
+       
         axios.post('http://127.0.0.1:8000/customers/', {
             name: name,
             phone_number: phone_number,
             address: address
         })
             .then(response => {
-                console.log(response)
+   
                 if (response.status === 200 || response.status === 201 || response.status === 202) {
                     setName('')
                     setAddress('')

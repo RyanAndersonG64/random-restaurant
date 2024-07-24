@@ -1,4 +1,4 @@
-import {React, useState, useContext} from 'react'
+import { React, useState, useContext } from 'react'
 import ReactDOM from 'react-dom/client'
 import {
   createBrowserRouter,
@@ -20,6 +20,9 @@ import Header from './Header'
 import Footer from './Footer'
 import AllergenInfo from './AllergenInfo'
 import { CustomerContext } from './customercontext'
+import { TimeContext } from './timecontext'
+import { OrderContext } from './ordercontext'
+import { ItemContext } from './itemcontext'
 
 const site = import.meta.env.BASE_URL
 
@@ -88,8 +91,48 @@ const CustomerContextProvider = ({ children }) => {
   )
 }
 
+const TimeContextProvider = ({ children }) => {
+
+  const [selectedTime, setSelectedTime] = useState()
+
+  return (
+    <TimeContext.Provider value={{ selectedTime, setSelectedTime }} >
+      {children}
+    </TimeContext.Provider>
+  )
+}
+
+const OrderContextProvider = ({ children }) => {
+
+  const [currentOrder, setCurrentOrder] = useState()
+
+  return (
+    <OrderContext.Provider value={{ currentOrder, setCurrentOrder }} >
+      {children}
+    </OrderContext.Provider>
+  )
+}
+
+const ItemContextProvider = ({ children }) => {
+
+  const [currentItems, setCurrentItems] = useState([])
+
+  return (
+    <ItemContext.Provider value={{ currentItems, setCurrentItems }} >
+      {children}
+    </ItemContext.Provider>
+  )
+}
+
+
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <CustomerContextProvider>
-    <RouterProvider router={router} />
-  </CustomerContextProvider>
+  <ItemContextProvider>
+    <OrderContextProvider>
+      <TimeContextProvider>
+        <CustomerContextProvider>
+          <RouterProvider router={router} />
+        </CustomerContextProvider>
+      </TimeContextProvider>
+    </OrderContextProvider>
+  </ItemContextProvider>
 )

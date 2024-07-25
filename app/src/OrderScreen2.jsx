@@ -193,13 +193,13 @@ function OrderScreen2() {
                 <TimeSelection />
             </div>
             <br></br>
-            {selectedTime}
+            <h6>Pickup Time: {selectedTime}</h6>
             <div style={{ margin: 'auto' }}>
                 <h5>Your Cart:</h5>
                 <br></br>
                 {currentOrder && currentItems.map(item => item.customer_order === currentOrder.id ? (
                     <div key={item.id}>
-                        {item.quantity} x {item.menu_item} , {item.customer_order}
+                        {item.quantity} x {item.menu_item}
                         <button style={{ marginLeft: 5, border: 'none', background: 'none' }} onClick={() => {
                             deleteItem({ item: item.id })
                                 .then(response => {

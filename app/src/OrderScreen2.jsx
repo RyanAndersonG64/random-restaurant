@@ -96,6 +96,40 @@ export const findItems = ({ order }) => {
         });
 }
 
+const deleteItem = ({ item }) => {
+    return axios({
+        method: 'delete',
+        url: `http://127.0.0.1:8000/orderitems/${item}`,
+        data: {
+            item,
+        },
+    })
+        .then((response) => {
+            console.log('DELORTED ', response);
+            return response;
+        })
+        .catch((error) => {
+            console.log('ERROR: ', error);
+        });
+}
+
+const checkOut = ({ order }) => {
+    return axios({
+        method: 'patch',
+        url: `http://127.0.0.1:8000/check-out`,
+        data: {
+            order,
+        },
+    })
+        .then((response) => {
+            console.log('order paid ', response);
+            return response;
+        })
+        .catch((error) => {
+            console.log('ERROR: ', error);
+        });
+}
+
 ``
 function OrderScreen2() {
 
@@ -105,7 +139,7 @@ function OrderScreen2() {
     const { currentOrder, setCurrentOrder } = useContext(OrderContext)
 
     const [menu, setMenu] = useState([])
-    const {currentItems, setCurrentItems} = useContext(ItemContext)
+    const { currentItems, setCurrentItems } = useContext(ItemContext)
 
     useEffect(() => {
         getMenu({ setMenu })
@@ -147,59 +181,12 @@ function OrderScreen2() {
                             })
                     })
             }
-
-            if (JSON.parse(localStorage.getItem('order')) && JSON.parse(localStorage.getItem('order')).customer == JSON.parse(localStorage.getItem('customer')).id) {
-                // let storedOrder = JSON.parse(localStorage.getItem('order'))
-                // setCurrentOrder(storedOrder)
-                // setSelectedTime(storedOrder.pickup_time)
-                // findItems ({ order: storedOrder.id })
-                // .then (response => {
-                //     console.log(response.data)
-                //     setCurrentItems(response.data.filter(item => item.customer_order === storedOrder.id))
-                // })
-            }
-
-            // if (selectedCustomer !== undefined) {
-            //     findOrder({ customer: selectedCustomer.id })
-            //         .then(response => {
-            //             let currentCustomersOrders = response.data.filter(order => order.customer === selectedCustomer.id)
-            //             let unpaidOrders = currentCustomersOrders.filter(order => order.paid === false)
-            //             if (unpaidOrders.length === 1) {
-            //                 setCurrentOrder(unpaidOrders[0])
-            //                 localStorage.setItem('order', JSON.stringify(unpaidOrders[0]))
-            //             } else {
-            //                 createOrder({ customer: selectedCustomer.id, pickup_time: '00:00', dine_status: `Takeout - ${pickup_time}` })
-            //                     .then(response => {
-            //                         console.log(response)
-            //                         setCurrentOrder(response.data)
-            //                         localStorage.setItem('order', JSON.stringify(response.data))
-            //                     })
-            //             }
-            //         })
-            // }
-
-            // if (currentOrder && currentOrder.order_items.length < 1) {
-            //     deleteOrder({ id: currentOrder.id })
-            // }
-
-            // if (selectedCustomer == undefined) {
-            //     navigate('../OrderScreen')
-            // }
         },
         []
     )
 
     return (
         <div className='p-5'>
-            <div style={{ float: "right" }}>
-                <h5>Your Cart:</h5>
-                <br></br>
-                {currentOrder && currentItems.map(item => (
-                    <div key={item.id}>
-                        {item.quantity} x {item.menu_item}
-                    </div>
-                ))}
-            </div>
             <h5>{selectedCustomer && selectedCustomer.name}</h5>
             <br></br>
             <div>
@@ -207,6 +194,69 @@ function OrderScreen2() {
             </div>
             <br></br>
             {selectedTime}
+            <div style={{ margin: 'auto' }}>
+                <h5>Your Cart:</h5>
+                <br></br>
+                {currentOrder && currentItems.map(item => item.customer_order === currentOrder.id ? (
+                    <div key={item.id}>
+                        {item.quantity} x {item.menu_item} , {item.customer_order}
+                        <button style={{ marginLeft: 5, border: 'none', background: 'none' }} onClick={() => {
+                            deleteItem({ item: item.id })
+                                .then(response => {
+                                    findOrder({ customer: selectedCustomer.id })
+                                        .then(response => {
+                                            let currentCustomersOrders = response.data.filter(order => order.customer === selectedCustomer.id)
+                                            let unpaidOrders = currentCustomersOrders.filter(order => order.paid === false)
+                                            if (unpaidOrders.length > 0) {
+                                                setCurrentOrder(unpaidOrders[0])
+                                                localStorage.setItem('order', JSON.stringify(unpaidOrders[0]))
+                                                findItems({ order: unpaidOrders[0].id })
+                                                    .then(response => {
+                                                        console.log(response.data)
+                                                        setCurrentItems(response.data.filter(item => item.customer_order === unpaidOrders[0].id))
+                                                    })
+                                            } else {
+                                                createOrder({ customer: selectedCustomer.id, pickup_time: '00:00', })
+                                                    .then(response => {
+                                                        setCurrentOrder(response.data)
+                                                        localStorage.setItem('order', JSON.stringify(response.data))
+                                                        findItems({ order: response.data.id })
+                                                            .then(response => {
+                                                                console.log(response.data)
+                                                                setCurrentItems(response.data.filter(item => item.customer_order === response.data.id))
+                                                            })
+                                                    })
+                                            }
+                                        })
+                                })
+                        }}
+                        >
+                            ❌
+                        </button>
+                    </div>
+                ) : (
+                    null
+                ))}
+                <button style={{ marginTop: 5 }} onClick={() => {
+                    if (currentItems.length > 0) {
+                        checkOut({ order: currentOrder.id })
+                            .then(response => {
+                                console.log(response)
+                                localStorage.setItem('order', JSON.stringify(response.data))
+                                createOrder({ customer: selectedCustomer.id, pickup_time: '00:00', dine_status: `Takeout - ${self.pickup_time}` })
+                                    .then(response => {
+                                        setCurrentOrder(response.data)
+                                        localStorage.setItem('order', JSON.stringify(response.data))
+                                        setCurrentItems([])
+                                    })
+                            })
+                    }
+                }
+                }
+                >
+                    Check Out
+                </button>
+            </div>
             <br></br>
             {menu.length > 0 && selectedTime !== undefined ? (
                 <OrderingMenu orderingMenu={menu} />
@@ -217,13 +267,11 @@ function OrderScreen2() {
 
 export default OrderScreen2
 
-// pseudocode:
+// to do:
 
-// cart displays items in current order
-    // each item has a remove button
+// clean up unnecessary blocks of code
 
-// checkout button that sets paid to True
-    // ordering as this customer should now start a new order with an empty cart
+// customers can view previous orders (maybe 'order again' button)
 
 // maybe make separate checkout page that button would navigate to
 

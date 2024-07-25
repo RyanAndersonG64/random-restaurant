@@ -30,7 +30,7 @@ function OrderingMenu({ orderingMenu }) {
     const { selectedCustomer, setSelectedCustomer } = useContext(CustomerContext)
 
     const [orderQuantity, setOrderQuantity] = useState(0)
-    const {currentItems, setCurrentItems} = useContext(ItemContext)
+    const { currentItems, setCurrentItems } = useContext(ItemContext)
 
     return orderingMenu.length > 0 ? (
         <div>
@@ -56,35 +56,38 @@ function OrderingMenu({ orderingMenu }) {
                                 }
                             }} ></input> &nbsp;
                             <button onClick={() => {
-                                addItem({ item: item.id, quantity: orderQuantity, customer_order: JSON.parse(localStorage.getItem('order')).id })
-                                    .then(response => {
-                                        findOrder({ customer: selectedCustomer.id })
-                                            .then(response => {
-                                                let currentCustomersOrders = response.data.filter(order => order.customer === selectedCustomer.id)
-                                                let unpaidOrders = currentCustomersOrders.filter(order => order.paid === false)
-                                                if (unpaidOrders.length > 0) {
-                                                    setCurrentOrder(unpaidOrders[0])
-                                                    localStorage.setItem('order', JSON.stringify(unpaidOrders[0]))
-                                                    findItems({ order: unpaidOrders[0].id })
-                                                        .then(response => {
-                                                            console.log(response.data)
-                                                            setCurrentItems(response.data.filter(item => item.customer_order === unpaidOrders[0].id))
-                                                        })
-                                                } else {
-                                                    createOrder({ customer: selectedCustomer.id, pickup_time: '00:00', })
-                                                        .then(response => {
-                                                            setCurrentOrder(response.data)
-                                                            localStorage.setItem('order', JSON.stringify(response.data))
-                                                            findItems({ order: response.data.id })
-                                                                .then(response => {
-                                                                    console.log(response.data)
-                                                                    setCurrentItems(response.data.filter(item => item.customer_order === response.data.id))
-                                                                })
-                                                        })
-                                                }
-                                            })
-                                    })
-                                setOrderQuantity(0)
+                                if (orderQuantity > 0) {
+                                    addItem({ item: item.id, quantity: orderQuantity, customer_order: JSON.parse(localStorage.getItem('order')).id })
+                                        .then(response => {
+                                            findOrder({ customer: selectedCustomer.id })
+                                                .then(response => {
+                                                    let currentCustomersOrders = response.data.filter(order => order.customer === selectedCustomer.id)
+                                                    let unpaidOrders = currentCustomersOrders.filter(order => order.paid === false)
+                                                    if (unpaidOrders.length > 0) {
+                                                        setCurrentOrder(unpaidOrders[0])
+                                                        localStorage.setItem('order', JSON.stringify(unpaidOrders[0]))
+                                                        findItems({ order: unpaidOrders[0].id })
+                                                            .then(response => {
+                                                                console.log(response.data)
+                                                                setCurrentItems(response.data.filter(item => item.customer_order === unpaidOrders[0].id))
+                                                            })
+                                                    } else 
+                                                    {
+                                                        createOrder({ customer: selectedCustomer.id, pickup_time: '00:00', })
+                                                            .then(response => {
+                                                                setCurrentOrder(response.data)
+                                                                localStorage.setItem('order', JSON.stringify(response.data))
+                                                                findItems({ order: response.data.id })
+                                                                    .then(response => {
+                                                                        console.log(response.data)
+                                                                        setCurrentItems(response.data.filter(item => item.customer_order === response.data.id))
+                                                                    })
+                                                            })
+                                                    }
+                                                })
+                                        })
+                                    setOrderQuantity(0)
+                                }
                             }
                             }
                             >
